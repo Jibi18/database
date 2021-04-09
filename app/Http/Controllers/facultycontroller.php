@@ -15,6 +15,8 @@ class facultycontroller extends Controller
     public function index()
     {
         //
+        $faculties=facultymodel::all();
+        return view('viewallfaculties',compact('faculties'));
     }
 
     /**
@@ -25,6 +27,12 @@ class facultycontroller extends Controller
     public function create()
     {
         return view('create');
+    }
+    public function search(Request $request)
+    {
+        $getFname=request('fname');
+        $faculties=facultymodel::query()->where('fname','LIKE',"%{$getFname}%")->get();
+        return view('viewallfaculties',compact('faculties'));
     }
 
     /**
@@ -53,6 +61,8 @@ class facultycontroller extends Controller
         $faculty->fcollege=$getcol;
         $faculty->fcontactno=$getcon;
         $faculty->save();
+        return redirect('/viewallfaculties');
+
     }
 
     /**
@@ -74,7 +84,9 @@ class facultycontroller extends Controller
      */
     public function edit($id)
     {
-        //
+        $faculties=facultymodel::find($id);
+        return view('editview',compact('faculties'));
+        
     }
 
     /**
@@ -86,7 +98,18 @@ class facultycontroller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $faculty=facultymodel::find($id);
+        $getname=request('fname');
+        $getdes=request('fdes');
+        $getcol=request('fcol');
+        $getcon=request('fcon');
+        
+        $faculty->fname=$getname;
+        $faculty->fdesignation=$getdes;
+        $faculty->fcollege=$getcol;
+        $faculty->fcontactno=$getcon;
+        $faculty->save();
+        return redirect('/viewallfaculties');
     }
 
     /**

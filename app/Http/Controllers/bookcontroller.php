@@ -15,6 +15,8 @@ class bookcontroller extends Controller
     public function index()
     {
         //
+        $books=bookmodel::all();
+        return view('viewallbook',compact('books'));
     }
 
     /**

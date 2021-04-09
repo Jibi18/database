@@ -15,6 +15,8 @@ class studentcontroller extends Controller
     public function index()
     {
         //
+        $studies=studentmodel::all();
+        return view('viewallstudent',compact('studies'));
     }
 
     /**
@@ -26,7 +28,16 @@ class studentcontroller extends Controller
     {
         return view('student');
     }
-
+    public function create2()
+    {
+        return view('searchstudent');
+    }
+    public function search(Request $request)
+    {
+        $getSname=request('sname');
+        $studies=studentmodel::query()->where('sname','LIKE',"%{$getSname}%")->get();
+        return view('viewallstudent',compact('studies'));
+    }
     /**
      * Store a newly created resource in storage.
      *
